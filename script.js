@@ -3,13 +3,16 @@
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const PROFILE_BASE_URL = "http://image.tmdb.org/t/p/w185";
 const BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
-const CONTAINER = document.querySelector(".container");
+const CONTAINER = document.querySelector("#movies");
+const home = document.getElementById("home")
+
 
 // Don't touch this function please
 const autorun = async () => {
   const movies = await fetchMovies();
   renderMovies(movies.results);
 };
+
 
 // Don't touch this function please
 const constructUrl = (path) => {
@@ -22,6 +25,7 @@ const constructUrl = (path) => {
 const movieDetails = async (movie) => {
   const movieRes = await fetchMovie(movie.id);
   renderMovie(movieRes);
+
 };
 
 // This function is to fetch movies. You may need to add it or change some part in it in order to apply some of the features.
@@ -29,6 +33,7 @@ const fetchMovies = async () => {
   const url = constructUrl(`movie/now_playing`);
   const res = await fetch(url);
   return res.json();
+  
 };
 
 // Don't touch this function please. This function is to fetch one movie.
@@ -40,17 +45,30 @@ const fetchMovie = async (movieId) => {
 
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovies = (movies) => {
+  CONTAINER.innerHTML = ""
+  const mainContainer = document.createElement("div");
+  mainContainer.classList.add("row", "justify-content-center")
   movies.map((movie) => {
+      console.log(movie)
+
     const movieDiv = document.createElement("div");
     movieDiv.innerHTML = `
         <img src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${
       movie.title
-    } poster">
-        <h3>${movie.title}</h3>`;
+    } poster class="card-img-top" ">
+
+        <div class="card-body text-center">
+        <h5>${movie.title}</h5>
+        <span> ratings: ${movie.vote_average}/10</span>
+  </div>`;
     movieDiv.addEventListener("click", () => {
       movieDetails(movie);
     });
-    CONTAINER.appendChild(movieDiv);
+    // console.log()
+    movieDiv.classList.add("col-md-5", "col-lg-3", "card", "p-0")
+    movieDiv.id = "movieCard"
+    mainContainer.appendChild(movieDiv);
+    CONTAINER.appendChild(mainContainer)
   });
 };
 
@@ -79,3 +97,4 @@ const renderMovie = (movie) => {
 };
 
 document.addEventListener("DOMContentLoaded", autorun);
+home.addEventListener("click", autorun)
