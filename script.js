@@ -131,7 +131,7 @@ const renderMovies = (movies) => {
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
   movies.map((movie) => {
-      // console.log(movie)
+      console.log(movie)
 
     const movieCard = document.createElement("div");
     movieCard.innerHTML = `
@@ -194,6 +194,38 @@ actors.addEventListener("click", async ()=> {
   renderActors(movies)
 })
 
+
+
+const movieCredits = async (id) =>{
+  const url = constructUrl(`movie/${id}/credits`)
+  const res = await fetch(url)
+  const data = await res.json()
+  const kf = data['cast']
+  console.log(data)
+  const knownFor = document.getElementById("knownForM")
+  for (let i=0; i<5; i++){
+    console.log(kf[i])
+    const movieCard = document.createElement("div");
+  movieCard.innerHTML = `
+      <img src="${PROFILE_BASE_URL + kf[i].profile_path}" alt="${
+        kf[i].title
+  } poster  ">
+
+      <div class=" text-center">
+      <h5>${kf[i].name}</h5>
+      <span> popularity: ${kf[i].popularity}/10</span>
+</div>`;
+movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
+  movieCard.classList.add("mainCard")
+knownFor.appendChild(movieCard)
+}
+} 
+
+
+
+
+
+
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovie = (movie) => {
   CONTAINER.innerHTML = `
@@ -214,8 +246,9 @@ const renderMovie = (movie) => {
         </div>
         </div>
             <h3>Actors:</h3>
-            <ul id="actors" class="list-unstyled"></ul>
+            <div class="row" id="knownForM"></div>
     </div>`;
+    movieCredits(movie.id)
 };
 
 const renderActor = (actor) => {
@@ -240,10 +273,18 @@ const renderActor = (actor) => {
         </div>
         <div class="container" >
           <h4 class="row" style="padding:1rem;"> Related Movies:</h4> 
-          <div class="row" id="knownFor"></div>
+          
         </div>
       </div>  
     `
+  
+  
+    credits(actor.id)
+  
+    
+  };
+
+
   const credits = async (id) =>{
     const url = constructUrl(`person/${id}/movie_credits`)
     const res = await fetch(url)
@@ -266,12 +307,6 @@ const renderActor = (actor) => {
   knownFor.appendChild(movieCard)
   }
   } 
-  
-    credits(actor.id)
-  
-    
-  };
-
 
 
 document.addEventListener("DOMContentLoaded", autorun);
