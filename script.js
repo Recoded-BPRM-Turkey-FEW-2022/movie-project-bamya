@@ -7,6 +7,8 @@ const CONTAINER = document.querySelector("#movies");
 const home = document.getElementById("home")
 const genersNav = document.getElementById("genres")
 const actors = document.getElementById("actors")
+const searchForm = document.getElementById("searchForm")
+const searchInput = document.getElementById("search")
 
 
 // Don't touch this function please
@@ -25,6 +27,10 @@ const constructUrl = (path) => {
 
 const genresUrl = (genreId) => {
   return `${TMDB_BASE_URL}/discover/movie?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}&sort_by=popularity.desc&with_genres=${genreId}`;
+}
+
+const searchUrl = (search) => {
+  return `${TMDB_BASE_URL}/search/multi?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}&query=${search}`;
 }
 
 
@@ -186,6 +192,27 @@ const genresUl = async () => {
 genresUl()
 
 
+// search movie 
+
+//fetch results
+
+const searchRes = async (value) => {
+  const url = searchUrl(value)
+  const res = await fetch(url)
+  const data = await res.json()
+  return data.results
+}
+
+
+
+
+searchForm.addEventListener("submit", async (e) => {
+  e.preventDefault
+  const results = await searchRes(searchInput.value)
+  renderMovies(results)
+})
+
+
 
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovies = (movies) => {
@@ -335,7 +362,7 @@ const renderActor = (actor) => {
         </div>
         <div class="container" >
           <h4 class="row" style="padding:1rem;"> Related Movies:</h4> 
-          
+          <div class="row" id="knownFor"></div>
         </div>
       </div>  
     `
@@ -368,6 +395,7 @@ const renderActor = (actor) => {
     movieCard.classList.add("mainCard")
   knownFor.appendChild(movieCard)
   }
+
   } 
 
 
