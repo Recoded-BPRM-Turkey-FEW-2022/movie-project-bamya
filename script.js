@@ -23,6 +23,10 @@ const constructUrl = (path) => {
   )}`;
 };
 
+const genresUrl = (genreId) => {
+  return `${TMDB_BASE_URL}/discover/movie?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}&sort_by=popularity.desc&with_genres=${genreId}`;
+}
+
 
 
 // You may need to add to this function, definitely don't delete it.
@@ -47,6 +51,41 @@ const fetchMovie = async (movieId) => {
   return res.json();
 };
 
+const genreFilter = async (genreId) => {
+    const url = genresUrl(genreId)
+    const response = await fetch(url)
+    const data = await response.json()
+    //const movies = await data.results;
+    console.log(data.results);
+    // return data.results.map(movie => new Movie(movie));
+    //return data.results
+
+  // empty aray to hold the movies of on genre
+  // let arr = []
+  // for (let i in data){
+  //   if (data[i].genre_ids.includes(genderId)){
+  //     arr.push(movies[i])
+  //   }
+renderMovies(data.results)
+  }
+
+
+// const genreFilter = async (genderId) => {
+//   console.log(genderId)
+//   const res = await fetchMovies()
+//   const movies = await res.results
+//   // empty aray to hold the movies of on genre
+//   let arr = []
+//   for (let i in movies){
+//     if (movies[i].genre_ids.includes(genderId)){
+//       arr.push(movies[i])
+//     }
+
+//   }
+//   renderMovies(arr)
+// }
+
+
 // fetching genres
 
 const fetchGenres = async () => {
@@ -65,6 +104,24 @@ const getGenre = async (ida) => {
     }
   });
 }
+
+
+
+
+
+
+// const fetchDiscover =  async (gId) => {
+//   const url = genresConstructUrl(gId)
+//   const response = await fetch(url)
+//   const data = await response.json()
+//   //const movies = await data.results;
+//   console.log(data.results);
+//   // return data.results.map(movie => new Movie(movie));
+//   //return data.results
+// }
+
+
+
 
 //fetching actors
 
@@ -116,8 +173,13 @@ const genresUl = async () => {
     const li = document.createElement("li")
     li.classList.add("dropdown-item")
     li.innerHTML = genres[i]['name']
-    // console.log(li)
+    console.log(genres[i].id)
     genersDD.appendChild(li)
+    // clicking on the genre 
+    li.addEventListener('click', ()=> {
+      genreFilter(genres[i].id)
+    })
+
   } 
   genersNav.appendChild(genersDD)
 }
@@ -131,7 +193,7 @@ const renderMovies = (movies) => {
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
   movies.map((movie) => {
-      console.log(movie)
+      // console.log(movie)
 
     const movieCard = document.createElement("div");
     movieCard.innerHTML = `
