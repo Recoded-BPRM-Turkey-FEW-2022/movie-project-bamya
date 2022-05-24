@@ -7,6 +7,8 @@ const CONTAINER = document.querySelector("#movies");
 const home = document.getElementById("home")
 const genersNav = document.getElementById("genres")
 const actors = document.getElementById("actors")
+const searchForm = document.getElementById("searchForm")
+const searchInput = document.getElementById("search")
 
 
 // Don't touch this function please
@@ -22,6 +24,14 @@ const constructUrl = (path) => {
     "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
   )}`;
 };
+
+const genresUrl = (genreId) => {
+  return `${TMDB_BASE_URL}/discover/movie?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}&sort_by=popularity.desc&with_genres=${genreId}`;
+}
+
+const searchUrl = (search) => {
+  return `${TMDB_BASE_URL}/search/multi?api_key=${atob('NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI=')}&query=${search}`;
+}
 
 
 
@@ -47,6 +57,41 @@ const fetchMovie = async (movieId) => {
   return res.json();
 };
 
+const genreFilter = async (genreId) => {
+    const url = genresUrl(genreId)
+    const response = await fetch(url)
+    const data = await response.json()
+    //const movies = await data.results;
+    console.log(data.results);
+    // return data.results.map(movie => new Movie(movie));
+    //return data.results
+
+  // empty aray to hold the movies of on genre
+  // let arr = []
+  // for (let i in data){
+  //   if (data[i].genre_ids.includes(genderId)){
+  //     arr.push(movies[i])
+  //   }
+renderMovies(data.results)
+  }
+
+
+// const genreFilter = async (genderId) => {
+//   console.log(genderId)
+//   const res = await fetchMovies()
+//   const movies = await res.results
+//   // empty aray to hold the movies of on genre
+//   let arr = []
+//   for (let i in movies){
+//     if (movies[i].genre_ids.includes(genderId)){
+//       arr.push(movies[i])
+//     }
+
+//   }
+//   renderMovies(arr)
+// }
+
+
 // fetching genres
 
 const fetchGenres = async () => {
@@ -65,6 +110,24 @@ const getGenre = async (ida) => {
     }
   });
 }
+
+
+
+
+
+
+// const fetchDiscover =  async (gId) => {
+//   const url = genresConstructUrl(gId)
+//   const response = await fetch(url)
+//   const data = await response.json()
+//   //const movies = await data.results;
+//   console.log(data.results);
+//   // return data.results.map(movie => new Movie(movie));
+//   //return data.results
+// }
+
+
+
 
 //fetching actors
 
@@ -116,12 +179,38 @@ const genresUl = async () => {
     const li = document.createElement("li")
     li.classList.add("dropdown-item")
     li.innerHTML = genres[i]['name']
-    // console.log(li)
+    console.log(genres[i].id)
     genersDD.appendChild(li)
+    // clicking on the genre 
+    li.addEventListener('click', ()=> {
+      genreFilter(genres[i].id)
+    })
+
   } 
   genersNav.appendChild(genersDD)
 }
 genresUl()
+
+
+// search movie 
+
+//fetch results
+
+const searchRes = async (value) => {
+  const url = searchUrl(value)
+  const res = await fetch(url)
+  const data = await res.json()
+  return data.results
+}
+
+
+
+
+searchForm.addEventListener("submit", async (e) => {
+  e.preventDefault
+  const results = await searchRes(searchInput.value)
+  renderMovies(results)
+})
 
 
 
@@ -131,7 +220,7 @@ const renderMovies = (movies) => {
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
   movies.map((movie) => {
-      console.log(movie)
+      // console.log(movie)
 
     const movieCard = document.createElement("div");
     movieCard.innerHTML = `
@@ -273,7 +362,7 @@ const renderActor = (actor) => {
         </div>
         <div class="container" >
           <h4 class="row" style="padding:1rem;"> Related Movies:</h4> 
-          
+          <div class="row" id="knownFor"></div>
         </div>
       </div>  
     `
@@ -306,6 +395,7 @@ const renderActor = (actor) => {
     movieCard.classList.add("mainCard")
   knownFor.appendChild(movieCard)
   }
+
   } 
 
 
