@@ -224,7 +224,7 @@ const renderMovies = (movies) => {
 
     const movieCard = document.createElement("div");
     movieCard.innerHTML = `
-        <img src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${
+        <img src="${BACKDROP_BASE_URL + movie.backdrop_path} " alt="${
       movie.title
     } poster  ">
 
@@ -356,7 +356,9 @@ const renderActor = (actor) => {
           <p id="popularity">${actor.popularity}</p>
           <h4>Birthday:</h4>
           <p id="birthday">${actor.birthday}</p>
-          ${actor.deathday}
+          <h4>Deathday:</h4>
+          <p id="deathday">${actor.deathday}</p>
+          
           <h4>Biography:</h4>
            <p id="biography" style="color:#BDBDBD; font-size: .8rem;">${actor.biography}</p>
         </div>
@@ -367,7 +369,7 @@ const renderActor = (actor) => {
       </div>  
     `
   
-  
+    if (actor.deathday === null) document.getElementById("deathday").remove()
     credits(actor.id)
   
     
@@ -380,7 +382,9 @@ const renderActor = (actor) => {
     const data = await res.json()
     const kf = data['cast']
     const knownFor = document.getElementById("knownFor")
-    for (let i=0; i<5; i++){
+    for (let i=0; i<10; i++){
+      console.log(kf)
+      if(kf[i].backdrop_path === null) continue;
       const movieCard = document.createElement("div");
     movieCard.innerHTML = `
         <img src="${BACKDROP_BASE_URL + kf[i].backdrop_path}" alt="${
@@ -401,3 +405,19 @@ const renderActor = (actor) => {
 
 document.addEventListener("DOMContentLoaded", autorun);
 home.addEventListener("click", autorun)
+
+
+
+// const img = document.getElementsByTagName("img")
+// console.log(img)
+// for(let i in img){
+  
+//   img[i].addEventListener("error", function(event) {
+//     // console.log("clicked")
+//     event.target.src = "https://i.stack.imgur.com/z0eJf.png"
+//     event.onerror = null
+//   })
+// }
+
+
+
