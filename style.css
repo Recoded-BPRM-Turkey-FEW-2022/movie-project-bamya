@@ -12,12 +12,12 @@
 img {
     /* max-width: 400px; */
 }
-#movieCard {
+.mainCard{
     position: relative ;
     overflow: hidden;
     margin: 10px 10px;
 }
-#movieCard > div{
+.mainCard > div{
  height: fit-content;
     text-align: center;
 position: absolute;
@@ -28,20 +28,22 @@ background-color: antiquewhite;
 transition-duration: 0.5s ;
 padding: 10px 0;
 }
-#movieCard img{
+.mainCard img{
     transition-duration: 0.5s ;
 }
-#movieCard h5{
+.mainCard h5{
     margin: 0;
 }
 
-#movieCard:hover > div {
+.mainCard:hover > div {
 bottom: 0px;  
 }
-#movieCard:hover img {
+.mainCard:hover img {
     transform: scale(1.3);
 }
-
+.mainCard:hover{
+    cursor: pointer;
+}
 
 .container:nth-child(2)
 
