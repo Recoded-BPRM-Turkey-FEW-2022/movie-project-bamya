@@ -50,3 +50,33 @@ bottom: 0px;
 #actors {
     margin: 24px 16px 0 0;
 }
+/* navbar   */
+/*navbar sections hovver*/
+.navbarsections:hover{
+    -webkit-transform: scale(1.1);
+
+}
+
+
+/*footer css */
+
+/*footer*/
+#footer{
+    height: 70px;
+}
+
+/*social media position*/
+.socaialmedsection{
+    padding-top: 10px;
+}
+/*social media icons*/
+.socaialmediabutton {
+    width: 25px;
+    height: 25px;
+    padding-left: 5px;
+    position: relative;    
+}
+/*social media icons hover*/
+.socaialmediabutton:hover{
+    -webkit-transform: scale(1.1);
+}
