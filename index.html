@@ -32,11 +32,21 @@
                         genres
                       </a>
                   </li>
-                  <li class="nav-item dropdown ">
+
+                  <!--filter drop down menu starts -->
+                  <li class="nav-item dropdown " id="filter">
                     <a class="nav-link dropdown-toggle navbarsections" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         filter
                       </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a id="popularmovies" class="dropdown-item" href="#">Popular</a>
+                        <a id="relasedatemovies"class="dropdown-item" href="#">Relase date</a>
+                        <a id="topratedmovies"class="dropdown-item" href="#">Top rated</a>
+                        <a id="nowplayingmovies"class="dropdown-item" href="#">Now playing</a>
+                        <a id="upcomingmovies"class="dropdown-item" href="#">Up coming</a>
+                      </div>
                   </li>
+                  <!--filter drop down menu ends-->
                   <li class="nav-item navbarsections">
                     <a class="nav-link ">About</a>
                   </li>
