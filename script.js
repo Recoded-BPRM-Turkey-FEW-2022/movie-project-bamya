@@ -421,3 +421,72 @@ home.addEventListener("click", autorun)
 
 
 
+/*filter section*/
+
+/*<a id="popularmovies" class="dropdown-item" href="#">Popular</a>
+                        <a id="relasedate"class="dropdown-item" href="#">Relase date</a>
+                        <a id="toprated"class="dropdown-item" href="#">Top rated</a>
+                        <a id="nowplaying"class="dropdown-item" href="#">Now playing</a>
+                        <a id="upcoming"class="dropdown-item" href="#">Up coming</a> */ 
+
+
+const filtersNav = document.getElementById("filter")
+//popular
+const filterPopular = async () => {
+  const url = constructUrl(`movie/popular`);
+  const res = await fetch(url);
+  const data = await res.json();
+  renderMovies(data.results);
+}  
+
+const popular_movies = document.getElementById("popularmovies") 
+popularmovies.addEventListener("click",filterPopular)
+
+
+//latest
+
+const filterrelasedate = async () => {
+  const url = constructUrl(`movie/latest`);
+  const res = await fetch(url);
+  const data = await res.json();
+  renderMovies(data.results)
+}
+
+const last_relesed = document.getElementById("relasedatemovies") 
+relasedatemovies.addEventListener("click",filterrelasedate)
+
+//top_rated
+
+const filterToprated = async () => {
+  const url = constructUrl(`movie/top_rated`);
+  const res = await fetch(url);
+  const data = await res.json();
+  renderMovies(data.results);
+}
+
+const top_rated = document.getElementById("topratedmovies") 
+topratedmovies.addEventListener("click",filterToprated)
+
+//Now_plating
+
+const filterNowplaying= async () => {
+  const url = constructUrl(`movie/now_playing`);
+  const res = await fetch(url);
+  const data = await res.json();
+  renderMovies(data.results);
+}
+
+const now_playing = document.getElementById("nowplayingmovies") 
+nowplayingmovies.addEventListener("click",filterNowplaying)
+
+//Up_coming
+
+const filterUpcoming= async () => {
+  const url = constructUrl(`movie/upcoming`);
+  const res = await fetch(url);
+  const data = await res.json();
+  renderMovies(data.results);
+}
+
+const Upcoming_movies = document.getElementById("upcomingmovies") 
+upcomingmovies.addEventListener("click",filterUpcoming)
