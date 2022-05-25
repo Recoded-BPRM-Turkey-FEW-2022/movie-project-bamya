@@ -101,30 +101,23 @@ const fetchGenres = async () => {
   return data['genres']
   // console.log(data['genres'])
 }
+// console.log(fetchGenres())
+
 
 const getGenre = async (ida) => {
-  const fetchGenre = await fetchGenres();
-  fetchGenre.forEach((el) => {
-    if (el.id === ida) {
-       console.log(el.name)
-    }
-  });
+  const res = await fetchGenres();
+ for(let i in res){
+   if(res[i].id === ida){
+     return res[i].name
+   }
+ }
+    
 }
+  
 
 
 
-
-
-
-// const fetchDiscover =  async (gId) => {
-//   const url = genresConstructUrl(gId)
-//   const response = await fetch(url)
-//   const data = await response.json()
-//   //const movies = await data.results;
-//   console.log(data.results);
-//   // return data.results.map(movie => new Movie(movie));
-//   //return data.results
-// }
+// 
 
 
 
@@ -179,7 +172,7 @@ const genresUl = async () => {
     const li = document.createElement("li")
     li.classList.add("dropdown-item")
     li.innerHTML = genres[i]['name']
-    console.log(genres[i].id)
+    // console.log(genres[i].id)
     genersDD.appendChild(li)
     // clicking on the genre 
     li.addEventListener('click', ()=> {
@@ -220,26 +213,47 @@ const renderMovies = (movies) => {
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
   movies.map((movie) => {
-      // console.log(movie)
+  console.log(movie)
 
-    const movieCard = document.createElement("div");
-    movieCard.innerHTML = `
-        <img src="${BACKDROP_BASE_URL + movie.backdrop_path} " alt="${
-      movie.title
-    } poster  ">
+    let ggg = ''
+    async function genn(){
+      for(let i in movie.genre_ids){
+        const res = await getGenre(movie.genre_ids[i])
+       ggg += " " + res
+      }
+          
+       let imagePath  = "/no_image.jpg";
+       if(movie.backdrop_path !== null)
+       imagePath = BACKDROP_BASE_URL + movie.backdrop_path;
+ 
+     const movieCard = document.createElement("div");
+     const genres = document.createElement("span")
+     movieCard.innerHTML = `
+         <img src="${imagePath} " alt="${
+       movie.title
+     } poster  ">
+ 
+         <div class="cardBody text-center">
+         <h5>${movie.title}</h5>
+         <span> ratings: ${movie.vote_average}/10</span>
+         <p>genre: ${ggg}</p> 
+   </div>`;
+    
+ movieCard.addEventListener("click", () => {
+       movieDetails(movie);
+     });
+     
 
-        <div class=" text-center">
-        <h5>${movie.title}</h5>
-        <span> ratings: ${movie.vote_average}/10</span>
-  </div>`;
-    movieCard.addEventListener("click", () => {
-      movieDetails(movie);
-    });
-    // console.log()
-    movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
-    movieCard.classList.add("mainCard")
-    mainContainer.appendChild(movieCard);
-    CONTAINER.appendChild(mainContainer)
+     movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
+     movieCard.classList.add("mainCard")
+     mainContainer.appendChild(movieCard);
+     CONTAINER.appendChild(mainContainer)
+
+     
+    }
+    genn()
+
+     
   });
 };
 
@@ -249,12 +263,18 @@ const renderActors = (movies) => {
     CONTAINER.innerHTML = ""
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
+  
   movies.map((movie) => {
       console.log(movie)
 
+      let imagePath  = "/no_image.jpg";
+      if (movie.profile_path !== null)
+      imagePath = PROFILE_BASE_URL + movie.profile_path;
+
+
     const movieCard = document.createElement("div");
     movieCard.innerHTML = `
-        <img src="${PROFILE_BASE_URL + movie.profile_path}" alt="${
+        <img class="img-responsive" src="${imagePath}" alt="${
       movie.name
     } poster  ">
 
@@ -293,10 +313,17 @@ const movieCredits = async (id) =>{
   console.log(data)
   const knownFor = document.getElementById("knownForM")
   for (let i=0; i<5; i++){
+
+
+    let imagePath  = "/no_image.jpg";
+      if(kf[i].profile_path !== null)
+      imagePath = PROFILE_BASE_URL + kf[i].profile_path;
     console.log(kf[i])
+
+
     const movieCard = document.createElement("div");
   movieCard.innerHTML = `
-      <img src="${PROFILE_BASE_URL + kf[i].profile_path}" alt="${
+      <img src="${imagePath}" alt="${
         kf[i].title
   } poster  ">
 
@@ -307,6 +334,12 @@ const movieCredits = async (id) =>{
 movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
   movieCard.classList.add("mainCard")
 knownFor.appendChild(movieCard)
+
+movieCard.addEventListener("click", () => {
+  actorDetails(kf[i]);
+  console.log(movie)
+});
+
 }
 } 
 
@@ -351,12 +384,12 @@ const renderActor = (actor) => {
         <div class="col-lg-8 col-md-12 col-sm-12">
           <h2 id="actor-name"><span>${actor.name}</span></h2>
           <h4>Gender:</h4>
-          <p id="gender">${actor.gender}</p>
+          <p id="gender">${actor.gender==1 ? "famale" : "male"}</p>
           <h4>Popularity:</h4>
           <p id="popularity">${actor.popularity}</p>
           <h4>Birthday:</h4>
           <p id="birthday">${actor.birthday}</p>
-          <h4>Deathday:</h4>
+          <h4 id="deathH">Deathday:</h4>
           <p id="deathday">${actor.deathday}</p>
           
           <h4>Biography:</h4>
@@ -369,7 +402,10 @@ const renderActor = (actor) => {
       </div>  
     `
   
-    if (actor.deathday === null) document.getElementById("deathday").remove()
+    if (actor.deathday === null) {
+      document.getElementById("deathday").remove() 
+      document.getElementById("deathH").remove() 
+    }
     credits(actor.id)
   
     
@@ -382,12 +418,16 @@ const renderActor = (actor) => {
     const data = await res.json()
     const kf = data['cast']
     const knownFor = document.getElementById("knownFor")
-    for (let i=0; i<10; i++){
+    for (let i=0; i<5; i++){
       console.log(kf)
-      if(kf[i].backdrop_path === null) continue;
+      let imagePath  = "/no_image.jpg";
+      if(kf[i].backdrop_path !== null) {
+      imagePath = BACKDROP_BASE_URL + kf[i].backdrop_path;
+
+
       const movieCard = document.createElement("div");
     movieCard.innerHTML = `
-        <img src="${BACKDROP_BASE_URL + kf[i].backdrop_path}" alt="${
+        <img src="${imagePath}" alt="${
           kf[i].title
     } poster  ">
 
@@ -398,11 +438,15 @@ const renderActor = (actor) => {
   movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
     movieCard.classList.add("mainCard")
   knownFor.appendChild(movieCard)
+
+  movieCard.addEventListener("click", () => {
+    movieDetails(kf[i]);
+  });
   }
 
   } 
 
-
+}
 document.addEventListener("DOMContentLoaded", autorun);
 home.addEventListener("click", autorun)
 
@@ -420,4 +464,4 @@ home.addEventListener("click", autorun)
 // }
 
 
-
+ 
