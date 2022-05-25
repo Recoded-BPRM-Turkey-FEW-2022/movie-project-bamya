@@ -2,8 +2,9 @@
     width: 100%;
 }
 
-/* .container { */
-/* } */
+.container { 
+    /* margin-top: 80px; */
+ }
 
 .row {
     width: 90%;
@@ -11,11 +12,13 @@
 }
 div > img {
     width: 100%;
+    
 }
 .mainCard{
     position: relative ;
     overflow: hidden;
     margin: 10px 10px;
+    /* height: 300px; */
 }
 .mainCard > div{
  height: fit-content;
@@ -53,8 +56,10 @@ bottom: 0px;
 /* navbar   */
 /*navbar sections hovver*/
 .navbarsections:hover{
+    transform: scale(1.1);
     -webkit-transform: scale(1.1);
-
+    background-color: antiquewhite;
+    border-radius: 10px;
 }
 
 
@@ -69,14 +74,22 @@ bottom: 0px;
 .socaialmedsection{
     padding-top: 10px;
 }
+
+.navbarsections {
+    transition: .3s;
+}
+
 /*social media icons*/
 .socaialmediabutton {
     width: 25px;
     height: 25px;
     padding-left: 5px;
-    position: relative;    
+    position: relative;   
+    transition-duration: 0.3s; 
+    cursor: pointer;
 }
 /*social media icons hover*/
 .socaialmediabutton:hover{
+    transform: scale(1.2);
     -webkit-transform: scale(1.1);
 }
