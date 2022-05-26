@@ -208,10 +208,12 @@ searchForm.addEventListener("submit", async (e) => {
 
 
 async function genn( movie){
-  let sss = ""
+  let sss = document.createElement("div")
   for(let i in movie.genre_ids){
     const res = await getGenre(movie.genre_ids[i])
-   sss += " " + res
+   const span = document.createElement("span")
+   span.innerHTML = res + " | "
+   sss.appendChild(span)
   //  console.log({res});
   }
  return sss;
@@ -221,37 +223,67 @@ async function genn( movie){
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovies =  (movies) => {
     CONTAINER.innerHTML = ""
+    const post = document.createElement("div")
+    // post.classList.add("container")
+    post.innerHTML = `
+    <section class="banner">
+        <div class="banner-card">
+
+          <img src="https://wallpaperaccess.com/full/3537597.jpg" class="banner-img"  alt="">
+
+          <div class="card-content">
+            <div class="card-info">
+
+              <div class="genre">
+                <ion-icon name="film"></ion-icon>
+                <span class="badge bg-primary">Action/Thriller/Anime</span>
+              </div>
+
+              <div class="year">
+                <span class="badge bg-primary">2022</span>
+              </div>
+            </div>
+            <h2 class="card-title">THE GREATEST COMEBACK</h2>
+          </div>
+
+        </div>
+      </section>
+    `
+    const popBar = document.createElement("div") 
+    popBar.innerHTML = `
+    <div class="filter-bar">
+    <h2>Now Playing</h2>
+  </div>
+    `
+    CONTAINER.appendChild(post)
+    CONTAINER.appendChild(popBar)
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
   movies.map(async (movie) => {
-  // console.log(movie)
 
     let ggg = await genn( movie)
-
-
-
-    
- 
-
-
-    // console.log(ggg)
-
     let imagePath  = "/no_image.jpg";
        if(movie.backdrop_path !== null)
        imagePath = BACKDROP_BASE_URL + movie.backdrop_path;
  
      const movieCard = document.createElement("div");
+     movieCard.classList.add("mainCard")
+
      const genres = document.createElement("span")
      movieCard.innerHTML = `
          <img src="${imagePath} " alt="${
        movie.title
      } poster  ">
  
-         <div class="cardBody text-center">
+         <div id="cardBody" class="cardBody text-center">
          <h5>${movie.title}</h5>
-         <span> ratings: ${movie.vote_average}/10</span>
-         <p>genre: ${ggg}</p> 
+         <span class=""> ratings: <span class=" badge text-bg-primary">${movie.vote_average}/10</span> </span>
+         <p>genre: <span class=" badge text-bg-primary">${ggg.innerHTML}</span> </p> 
    </div>`;
+   const cardBody = document.querySelector(".mainCard .cardBody")
+     console.log(cardBody);
+    //  cardBody.append(ggg)
+    // cardBody.innerHTML = ggg
     
  movieCard.addEventListener("click", () => {
        movieDetails(movie);
@@ -259,7 +291,6 @@ const renderMovies =  (movies) => {
      
 
      movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
-     movieCard.classList.add("mainCard")
      mainContainer.appendChild(movieCard);
      CONTAINER.appendChild(mainContainer)
 
