@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <title>Movie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">    <title>Movie</title>
 </head>
 
 <body>
  <!--navbar starts-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light" >
+        <nav class="navbar navbar-expand-lg fixed-top text-light " >
             <div class="container ">
               <a class="navbar-brand " href="#">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png?20190206123158" class=" img-responsive" alt="" width="110px" >
@@ -53,9 +57,9 @@
                 </ul>
 
                 <!--navbar search starts -->
-                <form class="d-flex text-dark" id="searchForm" role="search">
-                  <input class="form-control me-2 " id="search" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success btn-light" type="submit">Search</button>
+                <form class="d-flex text-dark " id="searchForm" role="search">
+                  <input class="form-control me-2 rounded-pill " id="search" type="search" placeholder="I'm looking for.." aria-label="Search">
+                  <button class="btn btn-outline-primary btn-light rounded-pill" type="submit">Search</button>
 
                 </form>
                 <!--navbar search ends -->
@@ -67,7 +71,7 @@
     </div>
 
         <!--footer starts -->
-        <footer id="footer" class=" text-center text-dark bg-light"  >
+        <footer id="footer" class=" text-center"  >
             <!--Social media starts-->
             <section class="socaialmedsection">
               <a class="btn btn-link btn-floating btn-lg text-dark m-1"
@@ -109,7 +113,7 @@
           <!-- footer ends -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="script.js" defer></script>
 </body>
 
 </html>
