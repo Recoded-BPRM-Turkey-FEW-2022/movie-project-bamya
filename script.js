@@ -207,22 +207,36 @@ searchForm.addEventListener("submit", async (e) => {
 
 
 
+async function genn( movie){
+  let sss = ""
+  for(let i in movie.genre_ids){
+    const res = await getGenre(movie.genre_ids[i])
+   sss += " " + res
+  //  console.log({res});
+  }
+ return sss;
+}
+
+
 // You'll need to play with this function in order to add features and enhance the style.
-const renderMovies = (movies) => {
+const renderMovies =  (movies) => {
     CONTAINER.innerHTML = ""
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
-  movies.map((movie) => {
-  console.log(movie)
+  movies.map(async (movie) => {
+  // console.log(movie)
 
-    let ggg = ''
-    async function genn(){
-      for(let i in movie.genre_ids){
-        const res = await getGenre(movie.genre_ids[i])
-       ggg += " " + res
-      }
-          
-       let imagePath  = "/no_image.jpg";
+    let ggg = await genn( movie)
+
+
+
+    
+ 
+
+
+    // console.log(ggg)
+
+    let imagePath  = "/no_image.jpg";
        if(movie.backdrop_path !== null)
        imagePath = BACKDROP_BASE_URL + movie.backdrop_path;
  
@@ -249,9 +263,6 @@ const renderMovies = (movies) => {
      mainContainer.appendChild(movieCard);
      CONTAINER.appendChild(mainContainer)
 
-     
-    }
-    genn()
 
      
   });
@@ -304,6 +315,46 @@ actors.addEventListener("click", async ()=> {
 })
 
 
+//related 
+const movieRelated = async (id) =>{
+  const url = constructUrl(`movie/${id}/similar`)
+  const res = await fetch(url)
+  const data = await res.json()
+const kf = data.results
+  console.log(data)
+  
+  
+  for (let i=0; i<5; i++){
+
+
+    let imagePath  = "/no_image.jpg";
+      if(kf[i].backdrop_path !== null) {
+      imagePath = BACKDROP_BASE_URL + kf[i].backdrop_path;
+      }
+
+
+    const movieCard = document.createElement("div");
+  movieCard.innerHTML = `
+      <img src="${imagePath}" alt="${
+        kf[i].title
+  } poster  ">
+
+      <div class=" text-center">
+      <h5>${kf[i].title}</h5>
+      <span> popularity: ${kf[i].popularity}/10</span>
+</div>`;
+movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
+  movieCard.classList.add("mainCard")
+knownForR.appendChild(movieCard)
+movieCard.addEventListener("click", () => {
+  actorDetails(kf[i]);
+  console.log(movie)
+});
+
+}
+} 
+
+
 
 const movieCredits = async (id) =>{
   const url = constructUrl(`movie/${id}/credits`)
@@ -311,7 +362,20 @@ const movieCredits = async (id) =>{
   const data = await res.json()
   const kf = data['cast']
   console.log(data)
+
   const knownFor = document.getElementById("knownForM")
+  const dir = document.getElementById("director")
+  let director = ""
+  // director 
+  for(let i in data["crew"] ){
+    if(data["crew"][i].known_for_department === "directing") {
+       director += data["crew"][i].name
+       console.log(data["crew"])
+    }
+  }
+  
+
+
   for (let i=0; i<5; i++){
 
 
@@ -350,6 +414,7 @@ movieCard.addEventListener("click", () => {
 
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovie = (movie) => {
+  let director =""
   CONTAINER.innerHTML = `
     <div class="row">
         <div class="col-md-4">
@@ -363,14 +428,20 @@ const renderMovie = (movie) => {
               movie.release_date
             }</p>
             <p id="movie-runtime"><b>Runtime:</b> ${movie.runtime} Minutes</p>
+            <h2 >director:</h2>
+            <p id="director">${director}</p>
             <h3>Overview:</h3>
             <p id="movie-overview">${movie.overview}</p>
         </div>
         </div>
             <h3>Actors:</h3>
             <div class="row" id="knownForM"></div>
+            <h3>Related movies:</h3>
+            <div class="row" id="knownForR"></div>
     </div>`;
+    
     movieCredits(movie.id)
+    movieRelated(movie.id)
 };
 
 const renderActor = (actor) => {
@@ -454,106 +525,6 @@ home.addEventListener("click", autorun)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*filter section*/
 
 /*<a id="popularmovies" class="dropdown-item" href="#">Popular</a>
@@ -623,3 +594,4 @@ const filterUpcoming= async () => {
 
 const Upcoming_movies = document.getElementById("upcomingmovies") 
 upcomingmovies.addEventListener("click",filterUpcoming)
+
