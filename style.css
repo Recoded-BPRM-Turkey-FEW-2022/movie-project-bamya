@@ -13,6 +13,10 @@ nav li a {
     color: white !important;
     margin-left: 20px;
 }
+#filter > div > a {
+    color: black !important;
+    margin: 0;
+}
 .container { 
     /* margin-top: 80px; */
  }
@@ -29,14 +33,23 @@ nav li a {
     border: 0ch;
     color: aliceblue;
 }
-
+#movie {
+    position: relative;
+}
+#movie img{
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
 .row {
     width: 100%;
     margin: 0 auto;
 }
 div > img {
     width: 100%;
-    
+    border-radius: inherit;
 }
 .mainCard{
     position: relative ;
@@ -61,12 +74,19 @@ width: 100%;
 color: rgb(255, 255, 255);
 transition-duration: 0.5s ;
 font-size: 18px;
-/* background-color: rgba(255, 255, 255, 0.124); */
+background-color: rgba(255, 255, 255, 0.124);
 }
 .mainCard img{
     transition-duration: 0.5s ;
 }
+
+h3 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
 .mainCard h5{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0;
     margin-bottom: 5px;
     font-size: larger;
@@ -101,6 +121,27 @@ opacity: 1;
     background-color: rgb(34, 55, 94);
     border-radius: 10px;
 }
+
+/* single movie  */
+
+#movie {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    margin: 69px auto;
+    /* background-color: rgb(34, 55, 94); */
+    border-radius: 10px;
+    padding: 15px;
+    border-radius: 10px;
+}
+#movie img {
+    width: 100%;
+    height: 100%;
+    opacity: .7;
+    border-radius: 10px
+}
+
+
 
 
 /*footer css */
@@ -208,5 +249,23 @@ filter: blur(5px); }
     background: hsla(218, 39%, 14%, 0.8);
     padding: 20px 30px;
     border-radius: 20px;
+    margin-bottom: 30px;
+  }
+  .actors,
+  .related {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    color: white;
+  }
+
+  #knownForM,
+  #knownForR {
+    display: flex;
+    flex-direction:row;
+    /* align-items: center; */
+    justify-content: center;
     margin-bottom: 30px;
   }
