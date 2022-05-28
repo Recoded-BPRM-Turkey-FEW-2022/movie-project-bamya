@@ -638,4 +638,60 @@ upcomingmovies.addEventListener("click", filterUpcoming)
 // About section 
 const about = document.getElementById("about")
 about.addEventListener("click",() => {
+
+  CONTAINER.innerHTML =`
+  <div id="aboutDiv" class="container">
+
+  <section >
+    
+    <div   class="">
+      
+      <div  class="row ">
+
+        <div class="col-md-4">
+          <img class="" src="enjoy.png" alt="about image">
+        </div>
+
+        <div class="col-md-6 p-5 align-self-center">
+
+          <h5 class="font-weight-normal mb-3 text-white">Project detail</h5>
+
+          <p class="">This project was made by two young students who have the ambition 
+          for coding during  Re:Coded Bootcamp for front-end development. The main goal of this 
+          project is to pull data from The Movie DB API and display it on the website. You can check 
+          the movie list from the main page and you can also choose the movies you like. There is 
+          great information about actors and the latest movies etc. on the website, so we recommend 
+          you to take a deeper look and explore the movies. we would like to hear from you about your 
+          experience.</p>
+
+          <ul class="list-unstyled font-small">
+           
+            <li>
+              <p class="text-uppercase mb-2"><b>Date</b></p>
+              <p class=" mb-4">29.05.2022</p>
+            </li>
+
+            <li>
+              <p class="text-uppercase mb-2"><b>Programming language</b></p>
+              <p class=" mb-4">HTML, CSS, Javascript</p>
+            </li>
+
+            <li>
+            <p class="text-uppercase mb-2"><b>By</b></p>
+            <p class=" mb-4">Mohamad AGHİ & Kemal DAVUT</p>
+          </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+  `
 })
+

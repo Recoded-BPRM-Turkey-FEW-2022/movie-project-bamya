@@ -327,3 +327,14 @@ filter: blur(5px); }
     justify-content: center;
     margin-bottom: 30px;
   }
+
+  /*about diz and background img*/
+  #aboutDiv { background-color: hsl(222deg 25% 10%) !important;
+    color: white !important;
+    
+  }
+  #aboutDiv img {
+    transform: scale(0.7);
+    filter: blur(5px);
+
+  }
