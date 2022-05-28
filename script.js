@@ -44,11 +44,27 @@ const movieDetails = async (movie) => {
 
 };
 
+const fetchTrailer = async (id) => {
+  const url = constructUrl(`movie/${id}/videos`);
+  const res = await fetch(url);
+  const data = await res.json()
+  // console.log(data)
+  for ( let i in data.results){
+    if(data.results[i].name === 'Official Trailer'){ 
+      return data.results[i].key
+      // console.log(data.results[i].key);
+    }
+  }
+};
+// fetchTrailer(453395)
+
 // This function is to fetch movies. You may need to add it or change some part in it in order to apply some of the features.
 const fetchMovies = async () => {
   const url = constructUrl(`movie/now_playing`);
   const res = await fetch(url);
-  return res.json();
+  const data = await res.json();
+  // console.log(data)
+  return data;
 
 };
 
@@ -187,7 +203,7 @@ const renderMovies = (movies) => {
   const mainContainer = document.createElement("div");
   mainContainer.classList.add("row", "justify-content-center")
   movies.map(async (movie) => {
-
+    console.log(movie);
     let genr = await getGenr(movie)
     let imagePath = "/no_image.jpg";
     if (movie.backdrop_path !== null)
@@ -438,16 +454,16 @@ const movieCredits = async (id) => {
 }
 
 
-
-
-
-
 // display one movie details on the DOM
 const renderMovie = async (movie) => {
   console.log(movie.id);
   let ddd = await director(movie.id)
+  const trailer = await fetchTrailer(movie.id)
+  
   CONTAINER.innerHTML = `
-    <div id="movie" class="row">   
+    <div id="movie" class="row"> 
+    <div class="shadow"></div>
+  
         <img id="movie-backdrop" src=${BACKDROP_BASE_URL + movie.backdrop_path
         }>
         <div class="col-md-8" id="movieText">
@@ -462,22 +478,20 @@ const renderMovie = async (movie) => {
         </div>
         </div>
         <div class="actors">
-        <h3>Actors:</h3>
+        <h3 >Actors:</h3>
             <div class="row" id="knownForM"></div>
         </div>
-            
+        <iframe src=https://www.youtube.com/embed/${trailer}" frameborder="0"></iframe>
         <div class="related">
         <h3>Related movies:</h3>
             <div class="row" id="knownForR"></div>
         </div>
-
-            
+     
     </div>`;
     const movieBg = document.getElementById("movie");
   movieCredits(movie.id)
   movieRelated(movie.id)
 };
-
 
 // display one actor details on the DOM
 const renderActor = (actor) => {
@@ -488,7 +502,7 @@ const renderActor = (actor) => {
         <div class="col-lg-4 col-md-12 col-sm-12">
           <img id="actor-backdrop" src=${PROFILE_BASE_URL + actor.profile_path}> 
         </div>
-        <div class="col-lg-8 col-md-12 col-sm-12">
+        <div id="actor-text" class="col-lg-8 col-md-12 col-sm-12">
           <h2 id="actor-name"><span>${actor.name}</span></h2>
           <h4>Gender:</h4>
           <p id="gender">${actor.gender == 1 ? "famale" : "male"}</p>
@@ -502,9 +516,9 @@ const renderActor = (actor) => {
           <h4>Biography:</h4>
            <p id="biography" style="color:#BDBDBD; font-size: .8rem;">${actor.biography}</p>
         </div>
-        <div class="container" >
-          <h4 class="row" style="padding:1rem;"> Related Movies:</h4> 
-          <div class="row" id="knownFor"></div>
+        <div class="container mt-5" >
+          <h4  id="moviesBy" style="padding:1rem;"> Related Movies:</h4> 
+          <div class="row justify-content-center" id="knownFor"></div>
         </div>
       </div>  
     `
@@ -514,8 +528,6 @@ const renderActor = (actor) => {
     document.getElementById("deathH").remove()
   }
   credits(actor.id)
-
-
 };
 
 // get movies by specific actor
@@ -529,13 +541,10 @@ const credits = async (id) => {
     let imagePath = "/no_image.jpg";
     if (arrOfResults[i].backdrop_path !== null) {
       imagePath = BACKDROP_BASE_URL + arrOfResults[i].backdrop_path;
-
-
       const movieCard = document.createElement("div");
       movieCard.innerHTML = `
         <img src="${imagePath}" alt="${arrOfResults[i].title
         } poster  ">
-
         <div class=" text-center">
         <h5>${arrOfResults[i].title}</h5>
         <span> ratings: ${arrOfResults[i].vote_average}/10</span>
@@ -629,6 +638,7 @@ upcomingmovies.addEventListener("click", filterUpcoming)
 // About section 
 const about = document.getElementById("about")
 about.addEventListener("click",() => {
+
   CONTAINER.innerHTML =`
   <div id="aboutDiv" class="container">
 
@@ -684,3 +694,4 @@ about.addEventListener("click",() => {
 </div>
   `
 })
+
