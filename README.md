@@ -1,3 +1,7 @@
+# live preview 
+https://recoded-bprm-turkey-few-2022.github.io/movie-project-bamya/
+
+
 # Movie Project
 This is a movie database project, where it shows movies, their casts, ratings, trailers, related movies, genres, and so on.
 
