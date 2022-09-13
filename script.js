@@ -14,6 +14,7 @@ const searchInput = document.getElementById("search")
 // Don't touch this function please
 const autorun = async () => {
   const movies = await fetchMovies();
+  
   renderMoviesHxH(movies.results);
 };
 
@@ -52,18 +53,14 @@ const fetchTrailer = async (id) => {
   for ( let i in data.results){
     if(data.results[i].name === 'Official Trailer'){ 
       return data.results[i].key
-      // console.log(data.results[i].key);
     }
   }
-};
-// fetchTrailer(453395)
-
+}
 // This function is to fetch movies. You may need to add it or change some part in it in order to apply some of the features.
 const fetchMovies = async () => {
   const url = constructUrl(`movie/now_playing`);
   const res = await fetch(url);
   const data = await res.json();
-  // console.log(data)
   return data;
 
 };
@@ -197,7 +194,7 @@ async function getGenr(movie) {
 }
 
 
-// rendering movies
+// rendering movies from an array of objects
 const renderMovies = (movies) => {
   CONTAINER.innerHTML = ""
   const mainContainer = document.createElement("div");
@@ -226,26 +223,20 @@ const renderMovies = (movies) => {
     movieCard.addEventListener("click", () => {
       movieDetails(movie);
     });
-
-
     movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
     mainContainer.appendChild(movieCard);
     CONTAINER.appendChild(mainContainer)
-
-
-
   });
 };
 
-
-
+// home page
 
 const renderMoviesHxH = (movies) => {
   CONTAINER.innerHTML = ""
   const post = document.createElement("div")
-  // post.classList.add("container")
+  
   post.innerHTML = `
-    <section class="banner">
+    <section id="hxh" class="banner">
         <div class="banner-card">
 
           <img src="https://wallpaperaccess.com/full/3537597.jpg" class="banner-img"  alt="">
@@ -302,19 +293,11 @@ const renderMoviesHxH = (movies) => {
     movieCard.addEventListener("click", () => {
       movieDetails(movie);
     });
-
-
     movieCard.classList.add("col-md-5", "col-lg-3", "card", "p-0")
     mainContainer.appendChild(movieCard);
     CONTAINER.appendChild(mainContainer)
-
-
-
   });
 };
-
-
-
 
 
 // render actor details
@@ -461,7 +444,7 @@ const renderMovie = async (movie) => {
   const trailer = await fetchTrailer(movie.id)
   
   CONTAINER.innerHTML = `
-    <div id="movie" class="row"> 
+    <div id="movie" class=" flex-md-row"> 
     <div class="shadow"></div>
   
         <img id="movie-backdrop" src=${BACKDROP_BASE_URL + movie.backdrop_path
